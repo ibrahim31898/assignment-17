@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-
 <div>
     <div class="main">
         <h1>
             <span id="hoursDisp">00</span>:<span id="minsDisp">00</span>:<span id="secondsDisp">00</span>:<span id="milisecondsDisp">00</span>
         </h1>
+        <div class="inputFields">
+            <input type="number" id="hoursInput" placeholder="Hours">
+            <input type="number" id="minsInput" placeholder="Minutes">
+            <input type="number" id="secondsInput" placeholder="Seconds">
+            <input type="number" id="millisecondsInput" placeholder="Milliseconds">
+        </div>
         <div class="btnParent">
             <button onclick="startTimer()">Start</button>
             <button onclick="stopTimer()">Stop</button>
@@ -24,4 +28,5 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
