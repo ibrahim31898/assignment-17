@@ -1,49 +1,72 @@
-var minutes = 1;
-var seconds = 0;
-var miliseconds = 0;
+let hoursInput = document.getElementById('hoursInput');
+let minsInput = document.getElementById('minsInput');
+let secondsInput = document.getElementById('secondsInput');
+let millisecondsInput = document.getElementById('millisecondsInput');
 
-var hoursDisp = document.getElementById("hoursDisp");
-var minsDisp = document.getElementById("minsDisp");
-var secondsDisp = document.getElementById("secondsDisp");
-var milisecondsDisp = document.getElementById("milisecondsDisp");
-
-function renderTimer() {
-    hoursDisp.innerHTML = "00";
-    minsDisp.innerHTML = minutes < 10 ? "0" + minutes : minutes;
-    secondsDisp.innerHTML = seconds < 10 ? "0" + seconds : seconds;
-    milisecondsDisp.innerHTML = miliseconds < 10 ? "0" + miliseconds : miliseconds;
-}
-
-var interval;
+let hours = 0;
+let mins = 0;
+let seconds = 0;
+let milliseconds = 0;
+let timer;
 
 function startTimer() {
-    interval = setInterval(function(){
-        if (miliseconds === 0 && seconds === 0 && minutes === 0) {
-            stopTimer();
-            return;
-        }
+    hours = parseInt(hoursInput.value) || 0;
+    mins = parseInt(minsInput.value) || 0;
+    seconds = parseInt(secondsInput.value) || 0;
+    milliseconds = parseInt(millisecondsInput.value) || 0;
 
-        miliseconds--;
-        if (miliseconds < 0) {
-            miliseconds = 9;
-            seconds--;
-            if (seconds < 0) {
-                seconds = 59;
-                minutes--;
+    timer = setInterval(updateTimer, 10);
+}
+
+function updateTimer() {
+    if (milliseconds === 0) {
+        if (seconds === 0) {
+            if (mins === 0) {
+                if (hours === 0) {
+                    clearInterval(timer);
+                    return;
+                }
+                hours--;
+                mins = 59;
+            } else {
+                mins--;
             }
+            seconds = 59;
+        } else {
+            seconds--;
         }
-        renderTimer();
-    }, 100);
+        milliseconds = 99;
+    } else {
+        milliseconds--;
+    }
+
+    document.getElementById('hoursDisp').innerText = pad(hours);
+    document.getElementById('minsDisp').innerText = pad(mins);
+    document.getElementById('secondsDisp').innerText = pad(seconds);
+    document.getElementById('milisecondsDisp').innerText = pad(milliseconds);
 }
 
 function stopTimer() {
-    clearInterval(interval);
+    clearInterval(timer);
 }
 
 function resetTimer() {
-    stopTimer();
-    minutes = 1;
+    clearInterval(timer);
+    hoursInput.value = '';
+    minsInput.value = '';
+    secondsInput.value = '';
+    millisecondsInput.value = '';
+    hours = 0;
+    mins = 0;
     seconds = 0;
-    miliseconds = 0;
-    renderTimer();
+    milliseconds = 0;
+    document.getElementById('hoursDisp').innerText = '00';
+    document.getElementById('minsDisp').innerText = '00';
+    document.getElementById('secondsDisp').innerText = '00';
+    document.getElementById('milisecondsDisp').innerText = '00';
 }
+
+function pad(value) {
+    return value < 10 ? '0' + value : value;
+}
+
